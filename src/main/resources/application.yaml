@@ -1,0 +1,13 @@
+bot:
+  name: Artemka_Space_Bot
+  token: 6926830872:AAGqBKlx4kWh5SwPsTR4zJkzcBTQaYj2mhM
+
+#db related settings
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5432/telegram_bot_repository
+    password: 4253
+    username: postgres
