@@ -3,6 +3,7 @@ package com.artemnizhnyk.springfirstbot.service;
 import com.artemnizhnyk.springfirstbot.config.BotConfig;
 import com.artemnizhnyk.springfirstbot.entity.User;
 import com.artemnizhnyk.springfirstbot.repository.UserRepository;
+import com.vdurmont.emoji.EmojiParser;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -110,7 +111,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     }
 
     private void startCommandReceived(final long chatId, final String firstName) {
-        String answer = firstName + ", idi nahui!";
+        String answer = EmojiParser.parseToUnicode(firstName + ", idi nahui" + ":alien:");
         log.info("Replied to user " + firstName);
         sendAudioMessage(chatId);
         sendMessage(chatId, answer);
