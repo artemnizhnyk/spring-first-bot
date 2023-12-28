@@ -1,6 +1,6 @@
 bot:
   name: Artemka_Space_Bot
-  token: #token#
+  token:  #token#
 
 #db related settings
 spring:
