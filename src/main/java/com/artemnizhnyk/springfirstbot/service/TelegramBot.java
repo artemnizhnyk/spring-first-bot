@@ -1,11 +1,14 @@
 package com.artemnizhnyk.springfirstbot.service;
 
 import com.artemnizhnyk.springfirstbot.config.BotConfig;
+import com.artemnizhnyk.springfirstbot.entity.Ads;
 import com.artemnizhnyk.springfirstbot.entity.User;
+import com.artemnizhnyk.springfirstbot.repository.AdsRepository;
 import com.artemnizhnyk.springfirstbot.repository.UserRepository;
 import com.vdurmont.emoji.EmojiParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
@@ -49,7 +52,10 @@ public class TelegramBot extends TelegramLongPollingBot {
     public static final String ERROR_OCCURRED = "Error occurred: ";
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AdsRepository adsRepository;
     private final BotConfig config;
+
 
     public TelegramBot(final BotConfig config) {
         this.config = config;
@@ -228,5 +234,14 @@ public class TelegramBot extends TelegramLongPollingBot {
     private void sendAudioMessage(final long chatId) {
         SendVoice message = new SendVoice(String.valueOf(chatId), new InputFile(new File("src/main/resources/audio/startaudio.m4a"), "hiMessage"));
         executeMessage(message);
+    }
+
+    @Scheduled(cron = "${cron.scheduler}")
+    private void sendAds() {
+
+        Iterable<Ads> ads = adsRepository.findAll();
+        Iterable<User> users = userRepository.findAll();
+
+        ads.forEach(ad -> users.forEach(user -> prepareAndSendMessage(user.getChatId(), ad.getAd())));
     }
 }

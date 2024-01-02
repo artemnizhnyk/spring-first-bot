@@ -1,8 +1,9 @@
 bot:
   name: Artemka_Space_Bot
-  token: 6926830872:AAGqBKlx4kWh5SwPsTR4zJkzcBTQaYj2mhM #token#
+  token:  #token#
   owner: 510828058
-
+cron:
+  scheduler: 0 0 * * * *
 #db related settings
 spring:
   jpa:
